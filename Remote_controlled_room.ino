@@ -4,18 +4,18 @@
 #include <DHT.h>
 #define DHTPIN 3
 #define RGBPIN 4
-//#define DHTTYPE DHT11
+#define DHTTYPE DHT11
 #define NUMPIXELS 16
 #define RELAY 5
 
-char auth[] = "4115e6a928134d3ba13c305a186a242b";
-//DHT dht(DHTPIN, DHTTYPE);
+char auth[] = "TOKEN BLINK";
+DHT dht(DHTPIN, DHTTYPE);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXELS, RGBPIN, NEO_GRB + NEO_KHZ800);
 
 void setup()
 {
   Blynk.begin(auth);
-  //dht.begin();
+  dht.begin();
   strip.begin();
   strip.show();
   strip.show();
@@ -28,11 +28,11 @@ void loop()
   Blynk.run();
 }
 
-//BLYNK_READ(V0) // SET TEMPERATURE
-//{
- // byte t = dht.readTemperature();
-  //Blynk.virtualWrite(V0, t);
-//}
+BLYNK_READ(V0) // SET TEMPERATURE
+{
+  byte t = dht.readTemperature();
+  Blynk.virtualWrite(V0, t);
+}
 
 BLYNK_WRITE(V1) // SET RGB
 {
@@ -46,11 +46,11 @@ BLYNK_WRITE(V1) // SET RGB
   }
 }
 
-//BLYNK_READ(V2) // SET HUMIDITY
-//{
- // byte h = dht.readHumidity();
- // Blynk.virtualWrite(V2, h);
-//}
+BLYNK_READ(V2) // SET HUMIDITY
+{
+ byte h = dht.readHumidity();
+ Blynk.virtualWrite(V2, h);
+}
 
 BLYNK_WRITE(V3) // SET RELAY
 {
